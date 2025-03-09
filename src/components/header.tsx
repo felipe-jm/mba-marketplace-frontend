@@ -1,7 +1,7 @@
 import { PlusIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-import logo from "../assets/logo.svg";
+import logo from "../assets/logo-only.svg";
 import { Avatar } from "./avatar";
 import { Button } from "./button";
 import { NavBar } from "./nav-bar";
