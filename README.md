@@ -11,3 +11,9 @@ npm install
 ```bash
 npm run dev
 ```
+
+![dashboard](./screenshots/screenshot-1.png)
+
+![dashboard](./screenshots/screenshot-2.png)
+
+![dashboard](./screenshots/screenshot-3.png)
