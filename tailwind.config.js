@@ -1,61 +1,62 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  darkMode: ["class"],
-  content: ["./index.html", "./src/**/*.{ts,tsx,js,jsx}"],
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    fontFamily: {
-      sans: ["Poppins", "sans-serif"],
-      dmsans: ["DM Sans", "sans-serif"],
-    },
     extend: {
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+      fontFamily: {
+        sans: ["DM Sans", "sans-serif"],
+        poppins: ["Poppins", "sans-serif"],
+      },
+      fontSize: {
+        "title-lg": ["28px", { lineHeight: "120%", fontWeight: "700" }], // Bold
+        "title-md": ["24px", { lineHeight: "120%", fontWeight: "700" }], // Bold
+        "title-sm": ["18px", { lineHeight: "120%", fontWeight: "700" }], // Bold
+
+        subtitle: ["16px", { lineHeight: "120%", fontWeight: "600" }], // Semibold
+        "body-md": ["16px", { lineHeight: "120%", fontWeight: "400" }], // Regular
+        "body-sm": ["14px", { lineHeight: "120%", fontWeight: "400" }], // Regular
+        "body-xs": ["12px", { lineHeight: "120%", fontWeight: "400" }], // Regular
+
+        "label-md": [
+          "12px",
+          { lineHeight: "120%", fontWeight: "500", textTransform: "uppercase" },
+        ], // Medium, Uppercase
+        "label-sm": [
+          "10px",
+          { lineHeight: "120%", fontWeight: "500", textTransform: "uppercase" },
+        ], // Medium, Uppercase
+
+        "action-md": ["16px", { lineHeight: "120%", fontWeight: "500" }], // Medium
+        "action-sm": ["14px", { lineHeight: "120%", fontWeight: "500" }], // Medium
       },
       colors: {
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
-        card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
+        orange: {
+          base: "#F24D0D",
+          dark: "#C43C08",
         },
-        popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
+        blue: {
+          light: "#D7EFF9",
+          base: "#5EC5FD",
+          dark: "#009CF0",
         },
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
+        shape: {
+          white: "#FFFFFF",
+          background: "#FBF4F4",
+          shape: "#F5EAEA",
         },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
+        grayscale: {
+          100: "#ADADAD",
+          200: "#949494",
+          300: "#666666",
+          400: "#3D3D3D",
+          500: "#1D1D1D",
         },
-        muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
-        },
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
-        },
-        destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
-        },
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        chart: {
-          1: "hsl(var(--chart-1))",
-          2: "hsl(var(--chart-2))",
-          3: "hsl(var(--chart-3))",
-          4: "hsl(var(--chart-4))",
-          5: "hsl(var(--chart-5))",
+        semantic: {
+          danger: "#DC3545",
+          success: "#28A745",
         },
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [],
 };

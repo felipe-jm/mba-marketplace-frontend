@@ -1,55 +1,102 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { ArrowRight } from "lucide-react";
 import { Helmet } from "react-helmet-async";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import { z } from "zod";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { signIn } from "@/api/sign-in";
+import { Button } from "@/components/button";
+import { Input } from "@/components/input";
+
+const signInForm = z.object({
+  email: z.string().email({ message: "E-mail inválido." }),
+  password: z.string().min(1, { message: "A senha é obrigatória." }),
+});
+
+type SignInForm = z.infer<typeof signInForm>;
 
 export function SignIn() {
+  const navigate = useNavigate();
+
+  const { mutateAsync: authenticate } = useMutation({
+    mutationFn: signIn,
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting, errors },
+  } = useForm<SignInForm>({
+    resolver: zodResolver(signInForm),
+  });
+
+  async function handleSignIn(data: SignInForm) {
+    try {
+      await authenticate(data);
+
+      navigate("/");
+      toast.success("Autenticado com sucesso.");
+    } catch {
+      toast.error("Credenciais inválidas.");
+    }
+  }
+
   return (
     <>
-      <Helmet title="Login" />
+      <Helmet title="MBA Marketplace - Acesse sua conta" />
 
-      <div className="w-full h-full bg-white rounded-lg my-6 py-[4.5rem] px-[5rem] flex flex-col justify-between gap-6">
-        <div className="flex flex-col gap-12">
+      <div className="flex flex-col w-full h-full rounded-[32px] bg-shape-white px-20 py-[72px]">
+        <form
+          className="flex flex-col gap-12 mb-20"
+          onSubmit={handleSubmit(handleSignIn)}
+        >
           <div className="flex flex-col gap-2">
-            <h1 className="font-dmsans text-2xl font-bold tracking-tight">
-              Acesse sua conta
-            </h1>
-            <span className="text-base text-muted-foreground">
+            <h1 className="text-title-md font-sans">Acesse sua conta</h1>
+            <p className="text-body-sm font-poppins text-grayscale-300">
               Informe seu e-mail e senha para entrar
-            </span>
+            </p>
           </div>
 
-          <form className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">E-MAIL</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="Seu e-mail cadastrado"
-              />
-            </div>
+          <div className="flex flex-col gap-5">
+            <Input
+              id="email"
+              type="email"
+              placeholder="Seu e-mail cadastrado"
+              icon="Mail"
+              label="E-mail"
+              error={errors.email?.message}
+              {...register("email")}
+            />
+            <Input
+              id="password"
+              type="password"
+              placeholder="Sua senha de acesso"
+              icon="LockKeyhole"
+              label="Senha"
+              error={errors.password?.message}
+              {...register("password")}
+            />
+          </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="password">SENHA</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="Sua senha de acesso"
-              />
-            </div>
+          <Button className="w-full" size="lg" disabled={isSubmitting}>
+            Acessar <ArrowRight />
+          </Button>
+        </form>
 
-            <Button type="submit">Acessar</Button>
-          </form>
-        </div>
-
-        <div className="space-y-2">
-          <span className="text-muted-foreground">
+        <div className="flex flex-col gap-5 mt-auto">
+          <span className="text-body-md font-poppins text-grayscale-300">
             Ainda não tem uma conta?
           </span>
-          <button className="text-primary font-medium block w-full border border-primary rounded-lg px-4 py-2.5 hover:bg-primary/5">
-            Cadastrar
-          </button>
+          <Button
+            variant="outline"
+            size="lg"
+            onClick={() => navigate("/sign-up")}
+          >
+            Cadastrar <ArrowRight />
+          </Button>
         </div>
       </div>
     </>
