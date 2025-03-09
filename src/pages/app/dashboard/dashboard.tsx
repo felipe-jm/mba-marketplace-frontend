@@ -2,9 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { Helmet } from "react-helmet-async";
 
-import { GetNumberOfProductsAvailableIn30Days } from "@/api/get-number-of-products-available-in-30-days";
-import { GetNumberOfProductsSoldBySellerIn30Days } from "@/api/get-number-of-products-sold-by-seller-in-30-days";
-import { GetNumberOfViewsReceivedIn30Days } from "@/api/get-number-of-views-received-in-30-days";
+import { getNumberOfProductsAvailableIn30Days } from "@/api/get-number-of-products-available-in-30-days";
+import { getNumberOfProductsSoldBySellerIn30Days } from "@/api/get-number-of-products-sold-by-seller-in-30-days";
+import { getNumberOfViewsReceivedIn30Days } from "@/api/get-number-of-views-received-in-30-days";
 import { getViewsPerDayBySellerIn30Days } from "@/api/get-views-per-day-by-seller-in-30-days";
 import Icon from "@/components/icon";
 
@@ -14,17 +14,17 @@ import { VisitorsChart } from "./visitors-chart";
 export function Dashboard() {
   const { data: numberOfProductsSold } = useQuery({
     queryKey: ["metrics", "products-sold-in-30-days"],
-    queryFn: GetNumberOfProductsSoldBySellerIn30Days,
+    queryFn: getNumberOfProductsSoldBySellerIn30Days,
   });
 
   const { data: numberOfProductsAvailable } = useQuery({
     queryKey: ["metrics", "products-available-in-30-days"],
-    queryFn: GetNumberOfProductsAvailableIn30Days,
+    queryFn: getNumberOfProductsAvailableIn30Days,
   });
 
   const { data: numberOfViews } = useQuery({
     queryKey: ["metrics", "views-in-30-days"],
-    queryFn: GetNumberOfViewsReceivedIn30Days,
+    queryFn: getNumberOfViewsReceivedIn30Days,
   });
 
   const { data: viewsPerDay } = useQuery({

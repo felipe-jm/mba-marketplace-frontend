@@ -1,4 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -19,8 +20,18 @@ export function UpdateProduct() {
     queryFn: () => getProductById({ id: id ?? "" }),
   });
 
+  const invalidateProductAndMetrics = useCallback(() => {
+    queryClient.invalidateQueries({
+      queryKey: ["metrics", "products-available-in-30-days"],
+    });
+    queryClient.invalidateQueries({
+      queryKey: ["metrics", "products-sold-in-30-days"],
+    });
+  }, []);
+
   const { mutateAsync: updateProductStatusFn } = useMutation({
     mutationFn: updateProductStatus,
+    onSuccess: invalidateProductAndMetrics,
   });
 
   async function handleSellProduct() {
@@ -29,7 +40,7 @@ export function UpdateProduct() {
 
       await updateProductStatusFn({ id, status: "sold" });
 
-      await queryClient.invalidateQueries({ queryKey: ["product", id] });
+      invalidateProductAndMetrics();
 
       toast.success("Produto marcado como vendido com sucesso.");
     } catch {
@@ -43,7 +54,7 @@ export function UpdateProduct() {
 
       await updateProductStatusFn({ id, status: "cancelled" });
 
-      await queryClient.invalidateQueries({ queryKey: ["product", id] });
+      invalidateProductAndMetrics();
 
       toast.success("Produto desativado com sucesso.");
     } catch {
@@ -58,6 +69,9 @@ export function UpdateProduct() {
       await updateProductStatusFn({ id, status: "available" });
 
       await queryClient.invalidateQueries({ queryKey: ["product", id] });
+      await queryClient.invalidateQueries({
+        queryKey: ["metrics", "products-available-in-30-days"],
+      });
 
       toast.success("Produto reativado com sucesso.");
     } catch {
