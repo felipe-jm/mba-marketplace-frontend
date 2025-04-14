@@ -1,17 +1,17 @@
-import { api } from '../lib/axios'
+import { api } from "../lib/axios";
 
 export interface AttachmentsBody {
-  files: File[]
+  files: File[];
 }
 
 export async function attachments({ files }: AttachmentsBody) {
-  const formData = new FormData()
+  const formData = new FormData();
 
   for (const file of files) {
-    formData.append('files', file)
+    formData.append("file", file);
   }
 
-  const response = await api.post('/attachments', formData)
+  const response = await api.post("/attachments", formData);
 
-  return response
+  return response;
 }

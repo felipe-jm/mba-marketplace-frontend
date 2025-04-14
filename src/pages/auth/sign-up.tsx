@@ -74,10 +74,11 @@ export function SignUp() {
 
       const response = await uploadImage({ files: [file] });
 
-      setValue("avatarId", response.data.attachments[0].id);
+      setValue("avatarId", response.data.attachmentId);
 
       toast.success("Imagem enviada com sucesso.");
-    } catch {
+    } catch (error) {
+      console.log(error);
       toast.error("Erro ao fazer upload da imagem.");
     }
   }
